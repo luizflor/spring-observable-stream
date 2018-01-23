@@ -17,7 +17,7 @@ private open class Starter {
     @EnableWebSocketMessageBroker
     open class WebSocketConfig : AbstractWebSocketMessageBrokerConfigurer() {
         override fun registerStompEndpoints(registry: StompEndpointRegistry) {
-            registry.addEndpoint("/stomp").withSockJS()
+            registry.addEndpoint("/stomp").setAllowedOrigins("*").withSockJS()
         }
     }
 }

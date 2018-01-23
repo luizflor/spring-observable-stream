@@ -1,0 +1,68 @@
+<nav class="navbar navbar-expand-lg fixed-top navbar-global bg-warning">
+  <a class="navbar-brand" href="#">{{me}}</a>
+  <button (click)="open(content)" type="button" class="btn btn-primary navbar-btn">Send Yo!</button>
+</nav>
+
+<div class="container">
+  <div class="col-xs-2 pull-right">
+    <p><span id="status"> {{state|async}} </span></p>
+  </div>
+  <div class="row">
+    <div class="col-sm-1"></div>
+    <div class="col-sm-10">
+      <div *ngIf="!yos || yos.length===0" class="card">
+        <div class="card-header">
+          <h3 class="card-text">There are no recorded Yo's.</h3>
+        </div>
+        <div class="card-body">Use the "Send Yo!" button to send a Yo to a peer.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-1"></div>
+    <div class="col-sm-10">
+      <div *ngIf="yos && yos.length > 0" class="card">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-text">Recorded Yo's</h3>
+          </div>
+          <div class="card-body">
+            <ul>
+              <li *ngFor="let yo of yos;">{{yo.origin}} said: <b>{{yo.yo}}</b></li>
+            </ul>
+          </div>
+        </div>
+    </div>
+  </div>
+</div>
+
+  <ng-template #content let-c="close" let-d="dismiss">
+    <div>
+      <div class="modal-header">
+        <h4 class="modal-title">Send YO</h4>
+        <button type="button" class="close" aria-label="Close" (click)="onCancel()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="container">
+          <div class="row form-group">
+            <div class="col-sm-4">
+              <label col-form-label for="depositorName">Depositor Name:</label>
+            </div>
+            <div class="col-sm-8">
+              <select [(ngModel)]="selectedParty" class="form-control" id="depositorName" name="depositorName">
+                <option *ngFor="let c of peers" [ngValue]='c'>{{c}}</option>
+              </select>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="onSendYO()">Send YO</button>
+        <button type="button" class="btn btn-secondary" (click)="onCancel()">Cancel</button>
+      </div>
+    </div>
+  </ng-template>

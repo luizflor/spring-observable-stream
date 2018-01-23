@@ -10,9 +10,7 @@ import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.ResponseEntity
 import org.springframework.messaging.simp.SimpMessagingTemplate
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.*
 import org.springframework.web.bind.annotation.RestController
 import javax.servlet.http.HttpServletRequest
 
@@ -53,10 +51,12 @@ private class RestController(
     }
 
     /** Returns the node's name. */
+    @CrossOrigin(origins = arrayOf("http://localhost:4200"))
     @GetMapping(value = "/myname", produces = arrayOf("text/plain"))
     private fun myName() = myName.toString()
 
     /** Returns a list of the node's network peers. */
+    @CrossOrigin(origins = arrayOf("http://localhost:4200"))
     @GetMapping(value = "/peersnames", produces = arrayOf("application/json"))
     private fun peersNames(): Map<String, List<String>> {
         val nodes = rpc.proxy.networkMapSnapshot()
@@ -67,6 +67,7 @@ private class RestController(
     }
 
     /** Returns a list of existing Yo's. */
+    @CrossOrigin(origins = arrayOf("http://localhost:4200"))
     @GetMapping(value = "/getyos", produces = arrayOf("application/json"))
     private fun getYos(): List<Map<String, String>> {
         val yoStateAndRefs = rpc.proxy.vaultQueryBy<YoState>().states
@@ -75,6 +76,8 @@ private class RestController(
     }
 
     /** Sends a Yo to a counterparty. */
+
+    @CrossOrigin(origins = arrayOf("http://localhost:4200"))
     @PostMapping(value = "/sendyo", produces = arrayOf("text/plain"), headers = arrayOf("Content-Type=application/x-www-form-urlencoded"))
     private fun sendYo(request: HttpServletRequest): ResponseEntity<String> {
         val targetName = request.getParameter("target")
